@@ -25,7 +25,9 @@ const añadirCampo=()=>{
   logFormate.value.push({ type:'', contenido:''});
 
 }
+const dividirCadena=(usuarios,separador)=>{
 
+}
 const reformarCampo=(objeto, type,contenido)=>{
   objeto.type= type;
   objeto.contenido= contenido;

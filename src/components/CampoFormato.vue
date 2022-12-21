@@ -1,6 +1,6 @@
 <script setup>
 import {ref} from "vue";
-
+import { computed } from "vue";
 defineProps(['campo','funcion']);
 
 const type= ref(0);
