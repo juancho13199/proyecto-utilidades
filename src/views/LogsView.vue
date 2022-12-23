@@ -10,8 +10,7 @@ const fecha1=ref();
 const fecha2=ref();
 const hora1=ref();
 const hora2=ref();
-const findeSi=ref(true);
-const findeNo=ref();
+const finde=ref(false);
 const registerNumber=ref();
 const usuarios=ref([]);
 const delimitador= ref('0');
@@ -44,12 +43,12 @@ const reformarCampo=(objeto, type,contenido)=>{
 }
 
 
-const prueba =(date1, date2)=>{
+const prueba =(date1, date2 ,hourMax,hourMin)=>{
     function getRandomArbitrary(min, max) {
       return Math.random() * (max - min) + min;
     }
-    var hour = Math.trunc(Math.random() * (19 - 9)+9);
-    var min =Math.trunc(Math.random()* 60 + 1) ;
+    var hour = Math.trunc(Math.random() * (hourMax - hourMin)+hourMin);
+    var min =Math.trunc(Math.random()* 30 + 1) ;
     var second=Math.trunc(Math.random()* 60 + 1) ;
     var milsecond=Math.trunc(Math.random()* 600 + 1) ;
     var date1 = date1 || '01-01-1970';
@@ -76,29 +75,63 @@ const prueba =(date1, date2)=>{
    // console.log(fecha1.value +"   "+ fecha2.value)
    //var tiempo= new Date(prueba(fecha1.value,fecha2.value)).toISOString();
    console.log("---------------------------------")
-      console.log(new Date(prueba(fecha1.value,fecha2.value)).toISOString());
+     /*  console.log(new Date(prueba(fecha1.value,fecha2.value)).toISOString());
       console.log(new Date(prueba(fecha1.value,fecha2.value)).getUTCDay());
       console.log(new Date(prueba(fecha1.value,fecha2.value)).toLocaleDateString());
-      console.log(new Date(prueba(fecha1.value,fecha2.value)).toLocaleTimeString());
+      console.log(new Date(prueba(fecha1.value,fecha2.value)).toLocaleTimeString()); */
+      console.log( hora1.value.slice(4,5))
     }
 
     const generarLog=()=>{
 
+      //Recogemos la hora y los minutos
+      var horaMin; var horaMax;var minMax;var minMin;
+      if(parseInt(hora1.value.slice(0,1))==0){
+       horaMin= parseInt(hora1.value.slice(1,2));
+      }else{
+        horaMin=parseInt( hora1.value.slice(0,2));
+
+      }
+      if(parseInt(hora2.value.slice(0,1))==0){
+         horaMax=parseInt(hora2.value.slice(1,2));
+      }else{
+        horaMax= parseInt(hora2.value.slice(0,2));
+
+      }
+
+      /* if(hora1.value.slice(3,4)=='0'){
+       minMin= parseInt(hora1.value.slice(4,5));
+      }else{
+        minMin=parseInt( hora1.value.slice(3,5));
+
+      }
+      if(hora2.value.slice(3,4)=='0'){
+         minMax=parseInt(hora2.value.slice(4,5));
+      }else{
+        minMax= parseInt(hora1.value.slice(3,5));
+
+      } */
+
+      //Realizamos la cración del Json con el numero de registros indicados
+
       for (let index = 0; index < registerNumber.value; index++) {
         
         var usuario = usuarios.value[Math.floor(Math.random() * usuarios.value.length)]
-        var fechaEntera = new Date(prueba(fecha1.value,fecha2.value));
+        var fechaEntera = new Date(prueba(fecha1.value,fecha2.value,horaMax,horaMin));
 
-        do{
-          fechaEntera = new Date(prueba(fecha1.value,fecha2.value));
-        }
-        while(fechaEntera.getUTCDay()==0 || fechaEntera.getUTCDay()==6)
+
+        //Si finde esta en falso es que no se quieren incluir en el rango de fechas generadas
+        if(finde==false){
+          do{
+            fechaEntera = new Date(prueba(fecha1.value,fecha2.value,horaMax,horaMin));
+          }
+          while(fechaEntera.getUTCDay()==0 || fechaEntera.getUTCDay()==6)
           
-        
+       }
 
         var fechatotal= fechaEntera.toISOString().slice(0,10);
         var fechahora= fechaEntera.toLocaleTimeString();
-        var empresa='de la empresa CARRIÓN, INGENIERÍA Y ESTRUCTURAS EN ACERO S.L.'.toString();
+        var empresa='de la empresa CARRIN, INGENIERA Y ESTRUCTURAS EN ACERO S.L.'.toString();
         var accede='accede'.toString();
         if(fechahora.length< 8){
           fechahora='0'+fechahora;
@@ -137,20 +170,20 @@ const prueba =(date1, date2)=>{
       <div class="row col-12 col-md-12">
 
           <div class="row col-md-6 mt-3 mb-3"> 
-            <span style="color:blue">Rango de Fecha : </span>
+            <span style="color:blue">Rango de Fecha : </span> 
               <div class="col-md-4">
                 Inicio
                 <input v-model="fecha1" type="date" class="form-control"/> 
-                <input v-model="hora1" type="time" class="form-control mt-2"/> 
-                <input v-model="findeNo" type="checkbox"/> no incluir finde 
+                <input v-model="hora1" type="time" class="form-control mt-2" step="1800"/> 
+                <input v-model="finde" type="checkbox"/> incluir finde
               </div>
               <div class="col-md-4">
                 Fin
                 <input v-model="fecha2" type="date" class="form-control"/>  
                 <input v-model="hora2" type="time" class="form-control mt-2"/>  
-                <input v-model="findeSi" type="checkbox"/> incluir finde
+                
               </div>
-            
+              
           </div>
 
           <div class="row col-md-6 mt-3 mb-3"> 
