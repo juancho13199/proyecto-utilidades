@@ -48,7 +48,7 @@ const prueba =(date1, date2 ,hourMax,hourMin)=>{
       return Math.random() * (max - min) + min;
     }
     var hour = Math.trunc(Math.random() * (hourMax - hourMin)+hourMin);
-    var min =Math.trunc(Math.random()* 30 + 1) ;
+    var min =Math.trunc(Math.random()* 15+ 1) ;
     var second=Math.trunc(Math.random()* 60 + 1) ;
     var milsecond=Math.trunc(Math.random()* 600 + 1) ;
     var date1 = date1 || '01-01-1970';
@@ -140,13 +140,13 @@ const prueba =(date1, date2 ,hourMax,hourMin)=>{
         
 
       jsonObjects.value.push(
-        {
+        {      
                 'fecha':fechatotal,
                 'hora': fechahora,
-                'linux': 'Usuario',
-                'iniciales':usuario,
-                'ninguno': empresa,
-                'estado': accede,
+                'linux': 'INFO',
+                'ip':'139.47.21.61',
+              
+                'estado': "This is an already logged session. _SESSION[dol_login]="+usuario,
         })
       }
         data_ordenado.value = jsonObjects.value.sort((a, b) => ( Date.parse(a.fecha+"T"+a.hora+".000Z") )  - (Date.parse(b.fecha+"T"+b.hora+".000Z")));
@@ -251,7 +251,7 @@ const prueba =(date1, date2 ,hourMax,hourMin)=>{
                 
                 <downloadCsv
                 :data="data_ordenado"
-                :delimiter="' '"
+                :delimiter="'   '"
                 :separator-excel="true"
                 >
                 <button @click="generarLog()" class="btn btn-danger ">Generar Log</button>
