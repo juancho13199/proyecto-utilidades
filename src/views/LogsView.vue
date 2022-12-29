@@ -121,13 +121,13 @@ const prueba =(date1, date2 ,hourMax,hourMin)=>{
 
 
         //Si finde esta en falso es que no se quieren incluir en el rango de fechas generadas
-        if(finde==false){
+        
           do{
             fechaEntera = new Date(prueba(fecha1.value,fecha2.value,horaMax,horaMin));
           }
           while(fechaEntera.getUTCDay()==0 || fechaEntera.getUTCDay()==6)
           
-       }
+       
 
         var fechatotal= fechaEntera.toISOString().slice(0,10);
         var fechahora= fechaEntera.toLocaleTimeString();
@@ -137,16 +137,16 @@ const prueba =(date1, date2 ,hourMax,hourMin)=>{
           fechahora='0'+fechahora;
         }
       
-        
 
       jsonObjects.value.push(
         {      
                 'fecha':fechatotal,
                 'hora': fechahora,
+                'ip':'+01:00',
                 'linux': 'INFO',
-                'ip':'139.47.21.61',
-              
-                'estado': "This is an already logged session. _SESSION[dol_login]="+usuario,
+                'll':'Usuario',
+                'user':usuario,
+                'estado': "accede a Kronoswork",
         })
       }
         data_ordenado.value = jsonObjects.value.sort((a, b) => ( Date.parse(a.fecha+"T"+a.hora+".000Z") )  - (Date.parse(b.fecha+"T"+b.hora+".000Z")));
@@ -251,7 +251,7 @@ const prueba =(date1, date2 ,hourMax,hourMin)=>{
                 
                 <downloadCsv
                 :data="data_ordenado"
-                :delimiter="'   '"
+                :delimiter="' '"
                 :separator-excel="true"
                 >
                 <button @click="generarLog()" class="btn btn-danger ">Generar Log</button>
